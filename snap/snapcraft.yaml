@@ -1,17 +1,10 @@
 ---
 name: nftables-pk
-adopt-info: nftables
 summary: nftables is the new packet classification framework that replaces iptables
 description: |
         Provides the latest version of nft command-line utility with the intention
         of replacing outdated and buggy packages provided by mainline Linux distributions.
-        To use this snap you need to connect the following interfaces:
-
-        snap connect nftables-pk:firewall-control
-        snap connect nftables-pk:network-control
-        snap connect nftables-pk:config-nftables
-
-        As well as create a system-wide alias:
+        You may want to create a system-wide alias:
 
         snap alias nftables-pk.nft nft
 
@@ -19,12 +12,22 @@ description: |
 
         Configuration files are expected to be located in /var/snap/nftables-pk/common
 
+        More documentation can be found at https://bitbucket.org/kravietz/snap-nftables/
+
+# obtain version information from the `nftables` part below
+adopt-info: nftables
+
+assumes:
+- snapd2.36       # for layouts
+- common-data-dir # for config files
+
 license: GPL-3.0
 # https://docs.snapcraft.io/channels
 grade: devel
 confinement: strict
 base: core18
 
+# where configuration files need to go https://forum.snapcraft.io/t/snap-layouts/7207
 layout:
   /etc/nftables.conf:
     bind-file: $SNAP_COMMON/nftables.conf
@@ -51,10 +54,13 @@ parts:
     source-type: git
     source: git://git.netfilter.org/nftables
     # https://forum.snapcraft.io/t/using-external-metadata/4642
+    # compile using previously built libnftnl part
     configflags:
         - CFLAGS=-I$SNAPCRAFT_STAGE/include
         - LDFLAGS=-L$SNAPCRAFT_STAGE/lib
+    # ensure libnftnl is built first
     after: [libnftnl]
+    # set version from git
     override-pull: |
       snapcraftctl pull
       snapcraftctl set-version $(git describe --abbrev=0)
@@ -64,7 +70,6 @@ apps:
     command: nft
     plugs:
     # https://docs.snapcraft.io/supported-interfaces
-    - network
-    - network-control
-    - firewall-control
-#    - config-nftables
+    - network           # for netlink interface
+    - network-control   # for /etc/iproute2/ files
+    - firewall-control  # for actual nftables configuration
