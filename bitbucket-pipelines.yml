@@ -5,4 +5,5 @@ pipelines:
   default:
     - step:
         script:
+          - apt-get update
           - snapcraft
