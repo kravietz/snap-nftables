@@ -13,6 +13,7 @@ description: |
         Configuration files are expected to be located in /var/snap/nftables-pk/common
 
         More documentation can be found at https://bitbucket.org/kravietz/snap-nftables/
+        Report issues https://bitbucket.org/kravietz/snap-nftables/issues
 
 # obtain version information from the `nftables` part below
 adopt-info: nftables
