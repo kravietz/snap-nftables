@@ -1,0 +1,70 @@
+---
+name: nftables-pk
+adopt-info: nftables
+summary: nftables is the new packet classification framework that replaces iptables
+description: |
+        Provides the latest version of nft command-line utility with the intention
+        of replacing outdated and buggy packages provided by mainline Linux distributions.
+        To use this snap you need to connect the following interfaces:
+
+        snap connect nftables-pk:firewall-control
+        snap connect nftables-pk:network-control
+        snap connect nftables-pk:config-nftables
+
+        As well as create a system-wide alias:
+
+        snap alias nftables-pk.nft nft
+
+        Remember to update your nftables scripts to point to /snap/bin/nft
+
+        Configuration files are expected to be located in /var/snap/nftables-pk/common
+
+license: GPL-3.0
+# https://docs.snapcraft.io/channels
+grade: devel
+confinement: strict
+base: core18
+
+layout:
+  /etc/nftables.conf:
+    bind-file: $SNAP_COMMON/nftables.conf
+  /etc/nftables:
+    bind: $SNAP_COMMON
+
+parts:
+  libnftnl:
+    plugin: autotools
+    source-type: git
+    source: git://git.netfilter.org/libnftnl
+    build-packages:
+      - build-essential
+      - bison
+      - flex
+      - asciidoc
+      - libmnl-dev
+      - libgmp-dev
+      - libreadline-dev
+      - pkg-config
+  
+  nftables:
+    plugin: autotools
+    source-type: git
+    source: git://git.netfilter.org/nftables
+    # https://forum.snapcraft.io/t/using-external-metadata/4642
+    configflags:
+        - CFLAGS=-I$SNAPCRAFT_STAGE/include
+        - LDFLAGS=-L$SNAPCRAFT_STAGE/lib
+    after: [libnftnl]
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version $(git describe --abbrev=0)
+
+apps:
+  nft:
+    command: nft
+    plugs:
+    # https://docs.snapcraft.io/supported-interfaces
+    - network
+    - network-control
+    - firewall-control
+#    - config-nftables
