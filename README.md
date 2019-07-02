@@ -1,6 +1,9 @@
 # Nftables Snap package
 
-Provides the latest version of `nft` command-line utility with the intention of replacing outdated and buggy packages
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nftables-pk)
+
+Provides the latest version of [nftables](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page)
+command-line utility with the intention of replacing outdated and buggy packages
 provided by mainline Linux distributions. You can install this package from the Snap Store:
 
     snap install nftables-pk
@@ -28,6 +31,8 @@ Any other file from that directory - e.g. `/var/snap/nftables-pk/common/other.co
 
     nft -f /etc/nftables/other.conf
     nft list ruleset
+
+See [nftables](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page) for documentation and examples. 
 
 ## Build
 
