@@ -4,13 +4,20 @@ summary: nftables is the new packet classification framework that replaces iptab
 description: |
         Provides the latest version of nft command-line utility with the intention
         of replacing outdated and buggy packages provided by mainline Linux distributions.
-        You may want to create a system-wide alias:
+        After installation you need to connect the following system services:
 
-        snap alias nftables-pk.nft nft
+                snap connect nftables-pk:firewall-control
+                snap connect nftables-pk:network-control
+
+        You may want to create a system-wide alias:
+  
+                snap alias nftables-pk.nft nft
 
         Remember to update your nftables scripts to point to /snap/bin/nft
 
-        Configuration files are expected to be located in /var/snap/nftables-pk/common
+        Configuration files must be placed in /var/snap/nftables-pk/common which
+        is mapped to /etc/nftables. When you run "nftables -f /etc/nftables/main.conf"
+        it will really look for "/var/snap/nftables-pk/common/main.conf".
 
         More documentation can be found at https://bitbucket.org/kravietz/snap-nftables/
         Report issues https://bitbucket.org/kravietz/snap-nftables/issues
