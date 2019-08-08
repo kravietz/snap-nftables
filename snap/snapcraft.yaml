@@ -30,8 +30,6 @@ base: core18
 
 # where configuration files need to go https://forum.snapcraft.io/t/snap-layouts/7207
 layout:
-  /etc/nftables.conf:
-    bind-file: $SNAP_COMMON/nftables.conf
   /etc/nftables:
     bind: $SNAP_COMMON
 
