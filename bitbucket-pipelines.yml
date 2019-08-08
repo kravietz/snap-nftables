@@ -1,0 +1,9 @@
+---
+image: snapcore/snapcraft:stable
+
+pipelines:
+  default:
+    - step:
+        script:
+          - apt-get update
+          - snapcraft
