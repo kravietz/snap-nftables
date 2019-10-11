@@ -4,6 +4,7 @@ summary: nftables is the new packet classification framework that replaces iptab
 description: |
         Provides the latest version of nft command-line utility with the intention
         of replacing outdated and buggy packages provided by mainline Linux distributions.
+        For documentation on how to use nftables see https://wiki.nftables.org/
 
         If you use snapd older than 2.41 you will need the following after installation:
 
@@ -13,14 +14,17 @@ description: |
   
                 snap alias nftables-pk.nft nft
 
-        Remember to update your nftables scripts to point to /snap/bin/nft
+        Remember to update your nftables scripts to point to /snap/bin/nft and move
+        your scripts from /etc/nftables to /var/snap/nftables-pk/common.
 
-        Configuration files must be placed in /var/snap/nftables-pk/common which
-        is mapped to /etc/nftables. When you run "nftables -f /etc/nftables/main.conf"
-        it will really look for "/var/snap/nftables-pk/common/main.conf".
+        Since this snap is fully confined, configuration files must be placed
+        in /var/snap/nftables-pk/common which is mapped to /etc/nftables.
+        When you run "nftables -f /etc/nftables/main.conf" it will really look
+        for "/var/snap/nftables-pk/common/main.conf".
 
         More documentation can be found at https://bitbucket.org/kravietz/snap-nftables/
         Report issues https://bitbucket.org/kravietz/snap-nftables/issues
+
 
 # obtain version information from the `nftables` part below
 adopt-info: nftables
@@ -32,7 +36,7 @@ assumes:
 
 license: GPL-3.0
 # https://docs.snapcraft.io/channels
-grade: devel
+grade: stable 
 confinement: strict
 base: core18
 
