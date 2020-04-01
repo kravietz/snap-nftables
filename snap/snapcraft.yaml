@@ -2,28 +2,33 @@
 name: nftables-pk
 summary: nftables is the new packet classification framework that replaces iptables
 description: |
-        Provides the latest version of nft command-line utility with the intention
-        of replacing outdated and buggy packages provided by mainline Linux distributions.
-        For documentation on how to use nftables see https://wiki.nftables.org/
+    Provides the latest version of nft command-line utility with the intention
+    of replacing outdated and buggy packages provided by mainline Linux distributions.
+    For documentation on how to use nftables see https://wiki.nftables.org/
 
-        If you use snapd older than 2.41 you will need the following after installation:
+    You may want to create a system-wide alias:
 
-                snap connect nftables-pk:network-control
+        snap alias nftables-pk.nft nft
 
-        You may want to create a system-wide alias:
+    Quick example (simple packet counter, not hooked to real traffic):
 
-                snap alias nftables-pk.nft nft
+        nft add table inet main
+        nft add chain inet main input
+        nft add rule inet main input counter accept
+        nft list ruleset
 
-        Remember to update your nftables scripts to point to /snap/bin/nft and move
-        your scripts from /etc/nftables to /var/snap/nftables-pk/common.
+    If you use snapd older than 2.41 you will need the following after installation:
 
-        Since this snap is fully confined, configuration files must be placed
-        in /var/snap/nftables-pk/common which is mapped to /etc/nftables.
-        When you run "nftables -f /etc/nftables/main.conf" it will really look
-        for "/var/snap/nftables-pk/common/main.conf".
+        snap connect nftables-pk:network-control
 
-        More documentation can be found at https://git.sr.ht/~kravietz/snap-nftables
-        Report issues https://todo.sr.ht/~kravietz/snap-nftables
+    Remember to update your nftables scripts to point to /snap/bin/nft and move
+    your scripts from /etc/nftables to /var/snap/nftables-pk/common.
+
+    Since this snap is fully confined, configuration files must be placed
+    in /var/snap/nftables-pk/common.
+
+    More documentation can be found at https://git.sr.ht/~kravietz/snap-nftables
+    Report issues https://todo.sr.ht/~kravietz/snap-nftables
 
 
 # obtain version information from the `nftables` part below
