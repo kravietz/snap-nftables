@@ -1,6 +1,8 @@
 # build manifest for SourceHut
 # https://man.sr.ht/builds.sr.ht/
 image: ubuntu/latest
+packages:
+- snapd
 sources:
 - https://git.sr.ht/~kravietz/snap-nftables
 tasks:
