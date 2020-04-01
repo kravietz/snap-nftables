@@ -30,8 +30,7 @@ description: |
 adopt-info: nftables
 
 assumes:
-#- snapd2.41     # for rt_netlink
-- snapd2.36       # for layouts
+- snapd2.41     # for rt_netlink
 - common-data-dir # for config files
 
 license: GPL-3.0
