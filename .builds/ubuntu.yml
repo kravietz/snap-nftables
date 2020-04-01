@@ -5,6 +5,8 @@ sources:
 - https://git.sr.ht/~kravietz/snap-nftables
 tasks:
 - setup: |
-    sudo snap install snapcraft multipass
+    sudo snap install snapcraft multipass review-tools
 - test: |
-    cd snap-nftables && snapcraft
+    cd snap-nftables
+    snapcraft
+    snap-review *.snap
