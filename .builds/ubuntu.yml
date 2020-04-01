@@ -1,0 +1,10 @@
+# build manifest for SourceHut
+# https://man.sr.ht/builds.sr.ht/
+image: ubuntu/latest
+sources:
+- https://git.sr.ht/~kravietz/snap-nftables
+tasks:
+- setup: |
+    sudo snap install snapcraft multipass
+- test: |
+    cd snap-nftables && snapcraft
