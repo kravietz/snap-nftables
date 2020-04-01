@@ -11,7 +11,7 @@ description: |
                 snap connect nftables-pk:network-control
 
         You may want to create a system-wide alias:
-  
+
                 snap alias nftables-pk.nft nft
 
         Remember to update your nftables scripts to point to /snap/bin/nft and move
@@ -22,8 +22,8 @@ description: |
         When you run "nftables -f /etc/nftables/main.conf" it will really look
         for "/var/snap/nftables-pk/common/main.conf".
 
-        More documentation can be found at https://bitbucket.org/kravietz/snap-nftables/
-        Report issues https://bitbucket.org/kravietz/snap-nftables/issues
+        More documentation can be found at https://git.sr.ht/~kravietz/snap-nftables
+        Report issues https://todo.sr.ht/~kravietz/snap-nftables
 
 
 # obtain version information from the `nftables` part below
@@ -35,7 +35,7 @@ assumes:
 
 license: GPL-3.0
 # https://docs.snapcraft.io/channels
-grade: stable 
+grade: stable
 confinement: strict
 base: core18
 
@@ -58,7 +58,7 @@ parts:
       - libgmp-dev
       - libreadline-dev
       - pkg-config
-  
+
   nftables:
     plugin: autotools
     source-type: git
