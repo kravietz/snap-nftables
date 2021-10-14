@@ -42,7 +42,7 @@ license: GPL-3.0
 # https://docs.snapcraft.io/channels
 grade: stable
 confinement: strict
-base: core18
+base: core20
 
 # where configuration files need to go https://forum.snapcraft.io/t/snap-layouts/7207
 layout:
@@ -73,7 +73,7 @@ parts:
     source: git://git.netfilter.org/nftables
     # https://forum.snapcraft.io/t/using-external-metadata/4642
     # compile using previously built libnftnl part
-    configflags:
+    autotools-configure-parameters:
         - CFLAGS=-I$SNAPCRAFT_STAGE/include
         - LDFLAGS=-L$SNAPCRAFT_STAGE/lib
     # ensure libnftnl is built first
@@ -85,7 +85,7 @@ parts:
 
 apps:
   nft:
-    command: nft
+    command: usr/local/sbin/nft
     plugs:
     # https://docs.snapcraft.io/supported-interfaces
     - network           # for netlink interface

@@ -1,6 +1,6 @@
 # build manifest for SourceHut
 # https://man.sr.ht/builds.sr.ht/
-image: ubuntu/latest
+image: ubuntu/lts
 packages:
 - snapd
 sources:
@@ -15,3 +15,6 @@ tasks:
     cd snap-nftables
     snapcraft
     snap-review *.snap
+- upload: |
+    snapcraft login --with ~/.snapcraft-api
+    snapcraft upload *.snap
