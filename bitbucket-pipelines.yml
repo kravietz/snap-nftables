@@ -1,8 +1,0 @@
----
-image: snapcore/snapcraft:stable
-
-pipelines:
-  default:
-    - step:
-        script:
-          - snapcraft
