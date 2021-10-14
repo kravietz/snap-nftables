@@ -1,6 +1,7 @@
-# Nftables Snap package
+[![nftables-pk](https://snapcraft.io/nftables-pk/badge.svg)](https://snapcraft.io/nftables-pk)
 
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/nftables-pk)
+
+# Nftables Snap package
 
 Provides the latest version of [nftables](https://wiki.nftables.org/wiki-nftables/index.php/Main_Page)
 command-line utility with the intention of replacing outdated and buggy packages
