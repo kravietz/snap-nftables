@@ -1,0 +1,17 @@
+# build manifest for SourceHut
+# https://man.sr.ht/builds.sr.ht/
+image: ubuntu/latest
+packages:
+- snapd
+sources:
+- https://git.sr.ht/~kravietz/snap-nftables
+tasks:
+- setup: |
+    sudo snap install --classic snapcraft
+    sudo snap install --classic multipass
+    sudo snap install review-tools
+- test: |
+    export PATH="$PATH:/snap/bin"
+    cd snap-nftables
+    snapcraft
+    snap-review *.snap

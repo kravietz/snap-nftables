@@ -1,0 +1,93 @@
+---
+name: nftables-pk
+summary: nftables is the new packet classification framework that replaces iptables
+description: |
+    Provides the latest version of nft command-line utility with the intention
+    of replacing outdated and buggy packages provided by mainline Linux distributions.
+    For documentation on how to use nftables see https://wiki.nftables.org/
+
+    You may want to create a system-wide alias:
+
+        snap alias nftables-pk.nft nft
+
+    Quick example (simple packet counter, not hooked to real traffic):
+
+        nft add table inet main
+        nft add chain inet main input
+        nft add rule inet main input counter accept
+        nft list ruleset
+
+    If you use snapd older than 2.41 you will need the following after installation:
+
+        snap connect nftables-pk:network-control
+
+    Remember to update your nftables scripts to point to /snap/bin/nft and move
+    your scripts from /etc/nftables to /var/snap/nftables-pk/common.
+
+    Since this snap is fully confined, configuration files must be placed
+    in /var/snap/nftables-pk/common.
+
+    More documentation can be found at https://git.sr.ht/~kravietz/snap-nftables
+    Report issues https://todo.sr.ht/~kravietz/snap-nftables
+
+
+# obtain version information from the `nftables` part below
+adopt-info: nftables
+
+assumes:
+- snapd2.41     # for rt_netlink
+- common-data-dir # for config files
+
+license: GPL-3.0
+# https://docs.snapcraft.io/channels
+grade: stable
+confinement: strict
+base: core18
+
+# where configuration files need to go https://forum.snapcraft.io/t/snap-layouts/7207
+layout:
+  /etc/nftables:
+    bind: $SNAP_COMMON
+
+parts:
+  libnftnl:
+    plugin: autotools
+    source-type: git
+    source: git://git.netfilter.org/libnftnl
+    build-packages:
+      - build-essential
+      - bison
+      - flex
+      - asciidoc
+      - libmnl-dev
+      - libgmp-dev
+      - libreadline-dev
+      - pkg-config
+      - xsltproc
+      - libjansson-dev
+      - libxtables-dev
+
+  nftables:
+    plugin: autotools
+    source-type: git
+    source: git://git.netfilter.org/nftables
+    # https://forum.snapcraft.io/t/using-external-metadata/4642
+    # compile using previously built libnftnl part
+    configflags:
+        - CFLAGS=-I$SNAPCRAFT_STAGE/include
+        - LDFLAGS=-L$SNAPCRAFT_STAGE/lib
+    # ensure libnftnl is built first
+    after: [libnftnl]
+    # set version from git
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version $(git describe --abbrev=0)
+
+apps:
+  nft:
+    command: nft
+    plugs:
+    # https://docs.snapcraft.io/supported-interfaces
+    - network           # for netlink interface
+    - network-control   # for /etc/iproute2/ files
+    - firewall-control  # for actual nftables configuration
