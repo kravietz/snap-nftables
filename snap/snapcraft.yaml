@@ -63,6 +63,9 @@ parts:
       - libgmp-dev
       - libreadline-dev
       - pkg-config
+      - xsltproc
+      - libjansson-dev
+      - libxtables-dev
 
   nftables:
     plugin: autotools
