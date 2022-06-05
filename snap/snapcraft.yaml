@@ -66,6 +66,7 @@ parts:
       - xsltproc
       - libjansson-dev
       - libxtables-dev
+      - libedit-dev
 
   nftables:
     plugin: autotools
